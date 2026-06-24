@@ -115,9 +115,16 @@ export const createActivity = async (conferenceId, data) => {
 
 export const getActivities = async (conferenceId) => {
   const snap = await getDocs(
-    query(collection(db, 'conferences', conferenceId, 'activities'), orderBy('day'), orderBy('createdAt'))
+    query(
+      collection(db, 'conferences', conferenceId, 'activities'),
+      orderBy('day')
+    )
   );
-  return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+  return snap.docs.map(d => ({
+    id: d.id,
+    ...d.data(),
+  }));
 };
 
 export const updateActivity = async (conferenceId, activityId, data) => {
