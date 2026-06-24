@@ -17,7 +17,7 @@ export default function ScannerPage() {
   const [attended, setAttended] = useState(new Set());
   const [marking, setMarking] = useState(null);
 
-  const handleScan = useCallback(async (code) => {
+  /*const handleScan = useCallback(async (code) => {
     if (!scanning || loading || !activeConference) return;
     if (!code.startsWith('USR')) return; // Validate format
 
@@ -46,7 +46,61 @@ export default function ScannerPage() {
     } finally {
       setLoading(false);
     }
-  }, [scanning, loading, activeConference]);
+  }, [scanning, loading, activeConference]);*/
+  const handleScan = useCallback(async (code) => {
+  console.log("================================");
+  console.log("QR SCANNED:", code);
+  console.log("SCANNING:", scanning);
+  console.log("LOADING:", loading);
+  console.log("ACTIVE CONF:", activeConference);
+
+  if (!scanning || loading || !activeConference) {
+    console.log("SCAN BLOCKED");
+    return;
+  }
+
+  if (!code.startsWith('USR')) {
+    console.log("INVALID QR FORMAT:", code);
+    return;
+  }
+
+  setScanning(false);
+  setLoading(true);
+
+  try {
+    console.log("FETCHING PARTICIPANT...");
+
+    const [p, acts, att] = await Promise.all([
+      getParticipant(activeConference.id, code),
+      getActivities(activeConference.id),
+      getAttendanceForUser(activeConference.id, code),
+    ]);
+
+    console.log("PARTICIPANT DATA:", p);
+    console.log("ACTIVITIES COUNT:", acts?.length);
+    console.log("ACTIVITIES:", acts);
+    console.log("ATTENDANCE:", att);
+
+    if (!p) {
+      console.log("PARTICIPANT NOT FOUND");
+      toast('Participant not found!', 'error');
+      setTimeout(() => setScanning(true), 2000);
+      return;
+    }
+
+    setParticipant(p);
+    setActivities(acts);
+    setAttended(new Set(att.map(a => a.activityId)));
+
+    console.log("SUCCESS - DATA LOADED");
+  } catch (err) {
+    console.error("SCAN ERROR:", err);
+    toast('Error loading participant', 'error');
+    setScanning(true);
+  } finally {
+    setLoading(false);
+  }
+}, [scanning, loading, activeConference]);
 
   const handleMarkAttendance = async (activity) => {
     if (attended.has(activity.id) || marking) return;
