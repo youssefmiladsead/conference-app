@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-gray-950 text-white font-sans;
+    overscroll-behavior: none;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-700 rounded-full;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-brand-500 hover:bg-brand-600 active:bg-brand-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-150 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed select-none;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-800 hover:bg-gray-700 active:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-150 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed select-none;
+  }
+
+  .btn-danger {
+    @apply bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-150 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed select-none;
+  }
+
+  .btn-success {
+    @apply bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-150 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed select-none;
+  }
+
+  .card {
+    @apply bg-gray-900 border border-gray-800 rounded-2xl p-4;
+  }
+
+  .input {
+    @apply bg-gray-800 border border-gray-700 text-white rounded-xl px-4 py-3 w-full focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent placeholder-gray-500 transition-all;
+  }
+
+  .label {
+    @apply text-sm font-medium text-gray-400 mb-1 block;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold;
+  }
+
+  .page-header {
+    @apply sticky top-0 z-40 bg-gray-950/90 backdrop-blur-sm border-b border-gray-800/50 px-4 py-3;
+  }
+
+  .section-title {
+    @apply text-lg font-bold text-white mb-3;
+  }
+
+  .rank-1 { @apply text-yellow-400; }
+  .rank-2 { @apply text-gray-300; }
+  .rank-3 { @apply text-amber-600; }
+}
+
+/* QR Scanner */
+#qr-reader {
+  width: 100% !important;
+  border: none !important;
+}
+
+#qr-reader video {
+  border-radius: 12px !important;
+}
+
+#qr-reader__scan_region {
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+
+#qr-reader__dashboard {
+  padding: 8px !important;
+}
+
+#qr-reader__dashboard_section_csr button {
+  @apply btn-primary text-sm !important;
+  padding: 8px 16px !important;
+  margin: 4px !important;
+}
+
+.html5-qrcode-element {
+  display: none !important;
+}

@@ -1,0 +1,49 @@
+// firestore.rules
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper: is authenticated admin
+    function isAdmin() {
+      return request.auth != null;
+    }
+
+    // Conferences: anyone can read, only admins write
+    match /conferences/{confId} {
+      allow read: if true;
+      allow write: if isAdmin();
+
+      // Participants: anyone can create (register), only admins can update/delete
+      match /participants/{userId} {
+        allow read: if true;
+        allow create: if true; // Public registration
+        allow update, delete: if isAdmin();
+      }
+
+      // Teams: anyone can read, only admins write
+      match /teams/{teamId} {
+        allow read: if true;
+        allow write: if isAdmin();
+      }
+
+      // Activities: anyone can read, only admins write
+      match /activities/{activityId} {
+        allow read: if true;
+        allow write: if isAdmin();
+      }
+
+      // Attendance: anyone can read, only admins write
+      match /attendance/{attendanceId} {
+        allow read: if true;
+        allow write: if isAdmin();
+      }
+
+      // Team Challenges: anyone can read, only admins write
+      match /teamChallenges/{challengeId} {
+        allow read: if true;
+        allow write: if isAdmin();
+      }
+    }
+  }
+}
