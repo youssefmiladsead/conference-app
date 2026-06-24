@@ -53,6 +53,7 @@ export default function ScannerPage() {
   console.log("SCANNING:", scanning);
   console.log("LOADING:", loading);
   console.log("ACTIVE CONF:", activeConference);
+  alert("SCANNED: " + code);
 
   if (!scanning || loading || !activeConference) {
     console.log("SCAN BLOCKED");
