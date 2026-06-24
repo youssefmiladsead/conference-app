@@ -1,7 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
 
 export default function QRScanner({ onScan }) {
+  const onScanRef = useRef(onScan);
+
+  useEffect(() => {
+    onScanRef.current = onScan;
+  }, [onScan]);
+
   useEffect(() => {
     const scanner = new Html5QrcodeScanner(
       "qr-reader",
@@ -15,7 +21,11 @@ export default function QRScanner({ onScan }) {
 
     scanner.render(
       (decodedText) => {
-        onScan?.(decodedText);
+        console.log("QR DETECTED:", decodedText);
+
+        if (onScanRef.current) {
+          onScanRef.current(decodedText.trim());
+        }
       },
       () => {}
     );
